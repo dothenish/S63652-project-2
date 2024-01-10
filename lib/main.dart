@@ -5,6 +5,9 @@
 *======================================================
 */
 import 'package:flutter/material.dart';
+import 'package:school_management_app/views/widgets/teachers_list.dart';
+import 'package:school_management_app/views/widgets/students_list.dart';
+import 'views/screens/add_teacher_page.dart';
 import 'views/screens/dashboard_page.dart';
 import 'views/screens/on_boarding_page.dart';
 import 'views/screens/log_in_page.dart';
@@ -34,7 +37,10 @@ class MyApp extends StatelessWidget {
         '/dashboard':(context) => Dashboard(),
         '/add_class_page':(context) => AddClassPage(),
         '/manage_teachers_page':(context) => ManageTeachersPage(),
-        '/add_student_page':(context) => AddStudentPage()
+        '/add_student_page':(context) => AddStudentPage(),
+        '/add_teacher_page':(context) => AddTeacherPage(),
+        '/teachers_list_page':(context) => TeachersList(),
+        '/students_list_page':(context) => StudentsList()
         
       },
       //The app will first show the onboarding page when the program is being run.

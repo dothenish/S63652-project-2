@@ -15,8 +15,20 @@ class _DashboardState extends State<Dashboard> {
       Navigator.pushReplacementNamed(context, '/add_student_page');
       }
 
+    void navigateToAddTeacherPage() {
+      Navigator.pushReplacementNamed(context, '/add_teacher_page');
+      }
+
     void navigateToLoginPage() {
       Navigator.pushReplacementNamed(context, '/loginpage');
+      }
+    
+    void navigateToTeachersListPage() {
+      Navigator.pushReplacementNamed(context, '/teachers_list_page');
+      }
+    
+    void navigateToStudentsListPage() {
+      Navigator.pushReplacementNamed(context, '/students_list_page');
       }
 
       
@@ -107,7 +119,7 @@ class _DashboardState extends State<Dashboard> {
                                           vertical: 16.0),
                                           //minimumSize: const Size(200.0, 40.0),
                                           ),
-                                      onPressed: () {}, 
+                                      onPressed: navigateToStudentsListPage, 
                                       child: Text("View Students")
                                     ),
                                     ElevatedButton(
@@ -161,7 +173,7 @@ class _DashboardState extends State<Dashboard> {
                                           vertical: 16.0),
                                           //minimumSize: const Size(200.0, 40.0),
                                           ),
-                                      onPressed: () {}, 
+                                      onPressed: navigateToTeachersListPage, 
                                       child: const Text("View Teacher")
                                     ),
                                     ElevatedButton(
@@ -175,7 +187,7 @@ class _DashboardState extends State<Dashboard> {
                                           vertical: 16.0),
                                           //minimumSize: const Size(200.0, 40.0),
                                           ),
-                                      onPressed: () {}, 
+                                      onPressed: navigateToAddTeacherPage, 
                                       child: const Text("Add Teacher"))
                                   ],
                                 ),

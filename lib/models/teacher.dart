@@ -6,13 +6,19 @@
 */
 
 class Teacher {
-  String id;
+  String icNo;
   String name;
   String subject;
+  String gender;
+  String address;
+  DateTime hiringDate; 
 
   Teacher({
-    required this.id, 
+    required this.icNo, 
     required this.name, 
-    required this.subject
+    required this.subject,
+    required this.gender,
+    required this.address,
+    required this.hiringDate
   });
 }
