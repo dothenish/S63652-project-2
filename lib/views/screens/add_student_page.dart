@@ -129,7 +129,7 @@ class _AddStudentPageState extends State<AddStudentPage> {
                       keyboardType: TextInputType.number,
                       decoration: const InputDecoration(labelText: "Identification Number"),
                       validator: (icno) => icno == null || icno.isEmpty
-                      ? 'Please enter identification number'
+                      ? 'Please enter student\'s identification number'
                       : null,
                       onSaved: (icno) {
                         icNoController.text = icNoController.text.toString();
@@ -159,7 +159,7 @@ class _AddStudentPageState extends State<AddStudentPage> {
                       controller: classNameController,
                       decoration: const InputDecoration(labelText: "Class"),
                       validator: (className) => className == null || className.isEmpty
-                      ? 'Please enter '
+                      ? 'Please enter student\'s class name'
                       : null,
                       onSaved: (className) {
                         classNameController.text = classNameController.text.toString();

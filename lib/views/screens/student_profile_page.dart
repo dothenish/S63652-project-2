@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:school_management_app/models/student.dart';
-import 'add_studresult_page.dart';
-import 'add_disciplinecase_page.dart';
+//import 'add_studresult_page.dart';
+//import 'add_disciplinecase_page.dart';
 
 class StudentProfilePage extends StatefulWidget {
   final Student student;
   final Function(Student) onRemoveStudent;
 
-  const StudentProfilePage( {super.key, 
+  const StudentProfilePage({
+    super.key, 
     required this.student,
     required this.onRemoveStudent});
 
@@ -17,8 +18,18 @@ class StudentProfilePage extends StatefulWidget {
 }
 
 class _StudentProfilePageState extends State<StudentProfilePage> {
-  List<String> results = [];
-  List<String> disciplinecase = [];
+  // List<String> results = [];
+  // List<String> disciplinecase = [];
+
+      void navigateToStudentResultListPage() {
+      Navigator.pushReplacementNamed(context, '/students_result_list_page');
+      }
+
+      void navigateToStudentDisciplineCaseListPage() {
+      Navigator.pushReplacementNamed(context, '/students_disciplinecase_list_page');
+      }
+
+
 
 
   @override
@@ -59,60 +70,34 @@ class _StudentProfilePageState extends State<StudentProfilePage> {
                   style: const TextStyle(
                     fontSize: 20
                   )),
-                  const SizedBox(height: 20,),
-                  const Text('Result:',
-                  style: TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold
-                  )),
-                  Column(
-                    children: results.map((result) => Text(result,
-                    style: const TextStyle(
-                      fontSize: 18
-                    ),)).toList(),
-                  ),
-                  const SizedBox(height: 20,),
-                  const Text('Discipline Case:',
-                  style: TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold
-                  ),),
-                  Column(
-                    children: disciplinecase.map((discipcase) => Text(discipcase,
-                    style: const TextStyle(
-                      fontSize: 18
-                    ))).toList(),
-                  ),
             
-                  const SizedBox(height: 20),
+                  const SizedBox(height: 100),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     //crossAxisAlignment: ,
                     children: [
                       ElevatedButton(
-                        onPressed: () {_showAddResultPage(context);
-                        },
+                        onPressed: navigateToStudentResultListPage,
                         style: ElevatedButton.styleFrom(
                           backgroundColor: Colors.deepPurple[800],
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(30.0)
                             ),
                         ),
-                        child: const Text("Add Result")),
+                        child: const Text("View Result")),
                       ElevatedButton(
-                        onPressed: () {_showAddDisciplineCasePage(context);
-                        }, 
+                        onPressed: navigateToStudentDisciplineCaseListPage, 
                         style: ElevatedButton.styleFrom(
                           backgroundColor: Colors.deepPurple[800],
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(30.0)
                             ),
                         ),
-                        child: const Text('Add Discipline Case')
+                        child: const Text('View Discipline Case')
                       )
                     ],
                   ),
-                  const SizedBox(height: 100),
+                  const SizedBox(height: 200),
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
@@ -129,11 +114,11 @@ class _StudentProfilePageState extends State<StudentProfilePage> {
                         style: TextStyle(
                           fontSize: 18,
                           fontStyle: FontStyle.italic
-                          ),
-                        )
-                      ),
-                    ],
-                  ),
+),
+                      )
+                    ),
+                  ],
+                ),
                 ],
               ),
             ),
@@ -143,50 +128,50 @@ class _StudentProfilePageState extends State<StudentProfilePage> {
     );
   }
 
-    void _showAddResultPage(BuildContext context) {
-      Navigator.of(context).push(
-      MaterialPageRoute(
-        builder: (ctx) => AddStudResultPage(
-          onAddResult: (subject, grade) {
-            setState(() {
-              results.add('$subject: $grade');
-            });
-          },
-        ),
-      ),
-    );
-  }
+  //   void _showAddResultPage(BuildContext context) {
+  //   Navigator.of(context).push(
+  //     MaterialPageRoute(
+  //       builder: (ctx) => AddStudResultPage(
+  //         onAddResult: (subject, grade) {
+  //           setState(() {
+  //             results.add('$subject: $grade');
+  //           });
+  //         },
+  //       ),
+  //     ),
+  //   );
+  // }
 
-      void _showAddDisciplineCasePage(BuildContext context) {
-        Navigator.of(context).push(
-        MaterialPageRoute(
-          builder: (ctx) => AddDisciplineCasePage(
-            onAddCase: (title, desc) {
-              setState(() {
-                disciplinecase.add('$title: $desc');
-              });
-            },
-          ),
-        ),
-      );
-    }
+  //     void _showAddDisciplineCasePage(BuildContext context) {
+  //   Navigator.of(context).push(
+  //     MaterialPageRoute(
+  //       builder: (ctx) => AddDisciplineCasePage(
+  //         onAddCase: (title, desc) {
+  //           setState(() {
+  //             disciplinecase.add('$title: $desc');
+  //           });
+  //         },
+  //       ),
+  //     ),
+  //   );
+  // }
 
-    void _showDeleteConfirmationDialog(BuildContext context) {
-      showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          return AlertDialog(
-           title: const Text('Delete Student?'),
-            content: const Text('Are you sure you want to delete this student?'),
-            actions: [
-              TextButton(
-                onPressed: () {
+void _showDeleteConfirmationDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('Delete Student?'),
+          content: const Text('Are you sure you want to delete this student?'),
+          actions: [
+            TextButton(
+              onPressed: () {
                 Navigator.of(context).pop();
               },
               child: const Text('Cancel'),
             ),
-              TextButton(
-                onPressed: () {
+            TextButton(
+              onPressed: () {
                 // Call the onRemoveStudent callback to delete the student
                 widget.onRemoveStudent(widget.student);
                 Navigator.of(context).pop();

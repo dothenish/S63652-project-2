@@ -16,6 +16,9 @@ import 'views/screens/on_boarding_page.dart';
 import 'views/screens/log_in_page.dart';
 import 'views/screens/add_student_page.dart';
 import 'views/screens/add_studresult_page.dart';
+import 'views/screens/add_disciplinecase_page.dart';
+import 'views/screens/student_result_list_page.dart';
+import 'views/screens/student_disciplinecase_list.dart';
 
 
 //connect project with firebase
@@ -53,7 +56,10 @@ class MyApp extends StatelessWidget {
         '/add_teacher_page':(context) => const AddTeacherPage(),
         '/teachers_list_page':(context) => const TeachersList(),
         '/students_list_page':(context) => const StudentsList(),
-        'add_studresult_page':(context) => AddStudResultPage(onAddResult: (subject , grade) {})
+        '/add_student_result_page':(context) => AddStudentResultPage(),
+        '/add_student_case_page':(context) => AddDisciplineCasePage(),
+        '/students_result_list_page':(context) => StudentResultPage(),
+        '/students_disciplinecase_list_page':(context) => StudentDisciplineCasePage(),
         
       },
       home: const LoginPage(),

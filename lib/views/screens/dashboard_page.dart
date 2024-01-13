@@ -181,7 +181,7 @@ class _DashboardState extends State<Dashboard> {
                                           //minimumSize: const Size(200.0, 40.0),
                                           ),
                                       onPressed: navigateToTeachersListPage, 
-                                      child: const Text("View Teacher")
+                                      child: const Text("View Teachers")
                                     ),
                                     ElevatedButton(
                                       style: ElevatedButton.styleFrom(

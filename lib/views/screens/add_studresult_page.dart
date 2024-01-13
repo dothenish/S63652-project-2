@@ -1,112 +1,120 @@
 import 'package:flutter/material.dart';
-import 'dart:convert';
-import 'package:http/http.dart';
-import 'package:school_management_app/models/result.dart';
 
-class AddStudResultPage extends StatefulWidget {
-  AddStudResultPage({super.key, required this.onAddResult});
-  final Function(String, String) onAddResult;
+class AddStudentResultPage extends StatefulWidget {
+  const AddStudentResultPage({super.key});
 
   @override
-  State<AddStudResultPage> createState() => _AddStudResultPageState();
+  State<AddStudentResultPage> createState() => _AddStudentResultPageState();
 }
 
-class _AddStudResultPageState extends State<AddStudResultPage> {
+class _AddStudentResultPageState extends State<AddStudentResultPage> {
   final _formKey = GlobalKey<FormState>();
   final subjectController = TextEditingController();
   final gradeController = TextEditingController();
 
-  // var _isSending = false;
+    void navigateToStudentResultListPage() {
+      Navigator.pushReplacementNamed(context, '/students_result_list_page');
+    }
 
-  // void _saveResult() async {
-  //   if (_formKey.currentState!.validate()) {
-  //         setState(() {
-  //           _isSending = true;
-  //         });
-  //         _formKey.currentState!.save();
-  //         final url = Uri.https(
-  //           'flutter-school-managemen-d72cf-default-rtdb.asia-southeast1.firebasedatabase.app',
-  //           'students-list/idstudent/result.json'
-  //         );
-  //         final response = await http.post(
-  //           url,
-  //           headers: {
-  //             'Content-Type': 'application/json',
-  //           },
-  //           body: json.encode(
-  //             {
-  //               'studentid': icNoController.text,
-  //               //'name': fullNameController.text,
-  //               //'classname': classNameController.text,
-  //             }
-  //           ),
-  //         );
-
-  //     print(response.body);
-  //     print(response.statusCode);
-
-  //     final Map<String, dynamic> resData = json.decode(response.body);
-
-  //     //Check the context for widget NULL
-  //     if (!context.mounted) {
-  //       return;
-  //     }
-  //     Navigator.of(context).pop(
-  //       Student(
-  //       id: resData['name'],
-  //       icNo: icNoController.text.toString(), 
-  //       className: classNameController.text.toString(), 
-  //       name: fullNameController.text.toString())
-  //     );
-  //   }
-  // }
-  
-  
-  
-  
-  
-  
-  
-  
-  @override
+@override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.deepPurple[800],
-        title: Text('Add Result'),
-        centerTitle: true,
-      ),
-      body: Padding(
-        padding: EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            TextField(
-              controller: subjectController,
-              decoration: InputDecoration(labelText: 'Subject'),
-            ),
-            SizedBox(height: 10),
-            TextField(
-              controller: gradeController,
-              decoration: InputDecoration(labelText: 'Grade'),
-            ),
-            SizedBox(height: 20),
-            ElevatedButton(
-              onPressed: () {
-                widget.onAddResult(subjectController.text, gradeController.text);
-                Navigator.of(context).pop();
-              },
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.deepPurple[800],
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(30.0)
-                  ),
+      backgroundColor: Colors.purple[50],
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Center(
+            child: Container(
+              padding: const EdgeInsets.all(16),
+              height: MediaQuery.of(context).size.height,
+              decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(20),
+                  color: Colors.white
                 ),
-              child: Text('Add Result'),
+              child: Form(
+                key: _formKey,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Align(
+                          alignment: Alignment.centerLeft,
+                          child: IconButton(
+                            onPressed: navigateToStudentResultListPage, 
+                            icon: const Icon(Icons.close,
+                          size: 34),) 
+                          
+                        ),
+                        const SizedBox(width: 35),
+                        const Expanded(
+                            child: Text(
+                              "Add Student Result",
+                              style: TextStyle(
+                                fontSize: 34,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ),
+                      ],
+                    ),
+                    //Add image here using image.picker
+                    //_buildImageContainer(),
+                    TextFormField(
+                      controller: subjectController,
+                      keyboardType: TextInputType.number,
+                      decoration: const InputDecoration(labelText: "Subject"),
+                      validator: (subject) => subject == null || subject.isEmpty
+                      ? 'Please enter Subject'
+                      : null,
+                      onSaved: (subject) {
+                        subjectController.text = subjectController.text.toString();
+                      },
+                    ),
+      
+                    TextFormField(
+                      controller: gradeController,
+                      decoration: const InputDecoration(labelText: "Grade"),
+                      validator: (grade) => grade == null || grade.isEmpty
+                      ? 'Please enter grade'
+                      : null,
+                      onSaved: (grade) {
+                        gradeController.text = gradeController.text.toString();
+                      },
+                    ),
+                    const SizedBox(height: 16.0),
+                    ElevatedButton(
+                      onPressed: () {}, 
+                      child: Text("Submit Result"))
+                    // ElevatedButton(
+                    //   style: ElevatedButton.styleFrom(
+                    //   backgroundColor: Colors.deepPurple[800],
+                    //   shape: RoundedRectangleBorder(
+                    //     borderRadius: BorderRadius.circular(30.0), 
+                    //     ),
+                    //     padding: const EdgeInsets.symmetric(
+                    //       horizontal: 20.0, 
+                    //       vertical: 16.0),
+                    //       minimumSize: const Size(200.0, 40.0),
+                    //       ),
+                    //   onPressed: _isSending
+                    //   ? null : _saveStudent,
+                    //   child: _isSending
+                    //   ? const SizedBox(
+                    //     height: 16,
+                    //     width: 16,
+                    //     child: CircularProgressIndicator(),
+                    //   )
+                    //   : const Text('Add Student'),
+                    // ),
+                  ],
+                ),
+              ),
             ),
-          ],
+          ),
         ),
       ),
     );
   }
-}
+}    

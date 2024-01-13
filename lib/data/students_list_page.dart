@@ -146,11 +146,11 @@ class _StudentsListState extends State<StudentsList> {
                         child: ListTile(
                           title: Text(student.name,
                           style: const TextStyle(
-                            fontSize: 26
+                            fontSize: 22
                           ),),
                           subtitle: Text(student.className,
                           style: const TextStyle(
-                            fontSize: 22
+                            fontSize: 20
                           ),),
                           onTap: () {
                             // Navigate to student profile page
@@ -158,7 +158,8 @@ class _StudentsListState extends State<StudentsList> {
                               MaterialPageRoute(
                                 builder: (ctx) => StudentProfilePage(
                                   student: student,
-                                  onRemoveStudent: _removeStudent,),
+                                  onRemoveStudent: _removeStudent,
+                                  ),
                               ),
                             );
                           },
