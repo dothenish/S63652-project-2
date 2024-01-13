@@ -1,5 +1,8 @@
+import 'dart:convert';
 import 'package:flutter/material.dart';
-import 'package:image_picker/image_picker.dart';
+import 'package:http/http.dart' as http;
+import 'package:school_management_app/models/student.dart';
+
 
 class AddStudentPage extends StatefulWidget {
   const AddStudentPage({super.key});
@@ -8,113 +11,184 @@ class AddStudentPage extends StatefulWidget {
   State<AddStudentPage> createState() => _AddStudentPageState();
 }
 
-
+//final databaseReference = FirebaseDatabase.instance.ref("students");
 
 class _AddStudentPageState extends State<AddStudentPage> {
-
-  final TextEditingController gradeController = TextEditingController();
-  final TextEditingController classNameController = TextEditingController();
-  final TextEditingController homeroomTeacherNameController = TextEditingController();
-  final TextEditingController homeroomTeacherIdController = TextEditingController();
-  String _imageUrl = "";
+  final _formKey = GlobalKey<FormState>();
+  final icNoController = TextEditingController();
+  final fullNameController = TextEditingController();
+  //final gradeController = TextEditingController();
+  final classNameController = TextEditingController();
+  //String _profileImageUrl = "";
+  var _isSending = false;
 
       void navigateToDashboard() {
       Navigator.pushReplacementNamed(context, '/dashboard');
       }
 
-      Future<void> _pickImage() async {
-      final pickedFile = await ImagePicker().pickImage(source: ImageSource.gallery);
+    //   Future<void> _pickImage() async {
+    //   final pickedFile = await ImagePicker().pickImage(source: ImageSource.gallery);
 
-      setState(() {
-        if (pickedFile != null) {
-          _imageUrl = pickedFile.path;
-        }
-      });
+    //   setState(() {
+    //     if (pickedFile != null) {
+    //       _profileImageUrl = pickedFile.path;
+    //     }
+    //   });
+    // }
+
+      void _saveStudent() async{
+        if (_formKey.currentState!.validate()) {
+          setState(() {
+            _isSending = true;
+          });
+          _formKey.currentState!.save();
+          final url = Uri.https(
+            'flutter-school-managemen-d72cf-default-rtdb.asia-southeast1.firebasedatabase.app',
+            'students-list.json'
+          );
+          final response = await http.post(
+            url,
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: json.encode(
+              {
+                'icno': icNoController.text,
+                'name': fullNameController.text,
+                'classname': classNameController.text,
+              }
+            ),
+          );
+
+      print(response.body);
+      print(response.statusCode);
+
+      final Map<String, dynamic> resData = json.decode(response.body);
+
+      //Check the context for widget NULL
+      if (!context.mounted) {
+        return;
+      }
+      Navigator.of(context).pop(
+        Student(
+        id: resData['name'],
+        icNo: icNoController.text.toString(), 
+        className: classNameController.text.toString(), 
+        name: fullNameController.text.toString())
+      );
     }
+  }
 
-@override
+ @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.purple[50],
-      body: Padding(
-        padding: EdgeInsets.all(16.0),
-        child: Center(
-          child: Container(
-            padding: EdgeInsets.all(16),
-            height: 450,
-            decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(20),
-                color: Colors.white
-              ),
-            child: Form(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Align(
-                        alignment: Alignment.centerLeft,
-                        child: IconButton(
-                          onPressed: navigateToDashboard, 
-                          icon: Icon(Icons.close,
-                        size: 34),) 
-                        
-                      ),
-                      SizedBox(width: 35),
-                      Expanded(
-                          child: Text(
-                            "Add Student",
-                            style: TextStyle(
-                              fontSize: 34,
-                              fontWeight: FontWeight.bold,
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Center(
+            child: Container(
+              padding: const EdgeInsets.all(16),
+              height: MediaQuery.of(context).size.height,
+              decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(20),
+                  color: Colors.white
+                ),
+              child: Form(
+                key: _formKey,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Align(
+                          alignment: Alignment.centerLeft,
+                          child: IconButton(
+                            onPressed: navigateToDashboard, 
+                            icon: const Icon(Icons.close,
+                          size: 34),) 
+                          
+                        ),
+                        const SizedBox(width: 35),
+                        const Expanded(
+                            child: Text(
+                              "Add Student",
+                              style: TextStyle(
+                                fontSize: 34,
+                                fontWeight: FontWeight.bold,
+                              ),
                             ),
                           ),
+                      ],
+                    ),
+                    //Add image here using image.picker
+                    //_buildImageContainer(),
+                    TextFormField(
+                      controller: icNoController,
+                      keyboardType: TextInputType.number,
+                      decoration: const InputDecoration(labelText: "Identification Number"),
+                      validator: (icno) => icno == null || icno.isEmpty
+                      ? 'Please enter identification number'
+                      : null,
+                      onSaved: (icno) {
+                        icNoController.text = icNoController.text.toString();
+                      },
+                    ),
+      
+                    TextFormField(
+                      controller: fullNameController,
+                      decoration: const InputDecoration(labelText: "Full Name"),
+                      validator: (fullname) => fullname == null || fullname.isEmpty
+                      ? 'Please enter student\'s full name number'
+                      : null,
+                      onSaved: (fullname) {
+                        fullNameController.text = fullNameController.text.toString();
+                      },
+                    ),
+                    
+                    // TextFormField(
+                    //   controller: gradeController,
+                    //   decoration: const InputDecoration(labelText: "Grade"),
+                    //   validator: (grade) => grade == null || grade.isEmpty
+                    //   ? 'Please choose student\'s grade'
+                    //   : null,
+                    // ),
+                    
+                    TextFormField(
+                      controller: classNameController,
+                      decoration: const InputDecoration(labelText: "Class"),
+                      validator: (className) => className == null || className.isEmpty
+                      ? 'Please enter '
+                      : null,
+                      onSaved: (className) {
+                        classNameController.text = classNameController.text.toString();
+                      },
+                    ),
+                    const SizedBox(height: 16.0),
+                    ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.deepPurple[800],
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(30.0), 
                         ),
-                    ],
-                  ),
-                  //Add image here using image.picker
-                  TextFormField(
-                    controller: gradeController,
-                    decoration: InputDecoration(labelText: "Grade"),
-                  ),
-
-                  TextFormField(
-                    controller: classNameController,
-                    decoration: InputDecoration(labelText: "Full Name"),
-                  ),
-                  
-                  TextFormField(
-                    controller: homeroomTeacherNameController,
-                    decoration: InputDecoration(labelText: "Student ID"),
-                  ),
-                  
-                  TextFormField(
-                    controller: homeroomTeacherIdController,
-                    decoration: InputDecoration(labelText: "Class"),
-                  ),
-                  SizedBox(height: 16.0),
-                  ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.deepPurple[800],
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(30.0), 
-                      ),
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 20.0, 
-                        vertical: 16.0),
-                        minimumSize: const Size(200.0, 40.0),
-                        ),
-                    onPressed: () {
-                      // Add your logic to save the class information
-                      // For example, you can access the values using:
-                      // selectedGrade, classNameController.text,
-                      // homeroomTeacherNameController.text,
-                      // homeroomTeacherIdController.text
-                    },
-                    child: Text('Add Student'),
-                  ),
-                ],
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 20.0, 
+                          vertical: 16.0),
+                          minimumSize: const Size(200.0, 40.0),
+                          ),
+                      onPressed: _isSending
+                      ? null : _saveStudent,
+                      child: _isSending
+                      ? const SizedBox(
+                        height: 16,
+                        width: 16,
+                        child: CircularProgressIndicator(),
+                      )
+                      : const Text('Add Student'),
+                    ),
+                  ],
+                ),
               ),
             ),
           ),

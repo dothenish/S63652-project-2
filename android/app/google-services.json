@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "841598331217",
+    "project_id": "flutter-school-managemen-d72cf",
+    "storage_bucket": "flutter-school-managemen-d72cf.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:841598331217:android:708c8d0838b561c7074b70",
+        "android_client_info": {
+          "package_name": "com.example.school_management_app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA8vuOJQ9AHVlZplgNWwPmjA48o4wyw5FI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

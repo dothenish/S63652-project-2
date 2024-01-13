@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 //import 'package:school_management_app/views/screens/add_student_page.dart';
 //import 'add_class_page.dart';
@@ -45,35 +46,41 @@ class _DashboardState extends State<Dashboard> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             const SizedBox(height: 40.0),
-            const Padding(
-              padding: EdgeInsets.all(20),
+            Padding(
+              padding: const EdgeInsets.all(20),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  // Align(
-                  //   alignment: Alignment.centerRight,
-                  //   child: IconButton(
-                  //   icon: Icon(Icons.logout,
-                  //   size: 20,
-                  //   color: Colors.white), onPressed: () {  },
-                  // ),
-                  // ),
-                  //SizedBox(height: 20,),
-                  Text("Welcome back,",
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 30,
-                    fontStyle: FontStyle.italic
-                  ),),
-                  Text("Name",
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      const Text("Welcome back,",
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 30,
+                        fontStyle: FontStyle.italic
+                      )),
+                      IconButton(
+                        onPressed: () => FirebaseAuth.instance.signOut(), 
+                        icon: const Icon(Icons.logout),
+                        color: Colors.white,)
+                    ],
+                  ),
+                  const Text("Admin",
                   style: TextStyle(
                     color: Colors.white,
                     fontSize: 40
                   ),),
-                ],
-              ),
+                  const Text("To\nSchool Management App",
+                  style: TextStyle(
+                    fontStyle: FontStyle.italic,
+                    color: Colors.white
+                  ),
+                )
+              ],
             ),
-            const SizedBox(height: 20.0,),
+          ),
+          const SizedBox(height: 20.0),
             Expanded(
               child: Container(
                   decoration: const BoxDecoration(
@@ -88,7 +95,7 @@ class _DashboardState extends State<Dashboard> {
                     child: Column(
                       children: [
                         Container(
-                          padding: EdgeInsets.all(20),
+                          padding: const EdgeInsets.all(20),
                           height: 150,
                           width: MediaQuery.of(context).size.width,
                           decoration: BoxDecoration(
@@ -120,7 +127,7 @@ class _DashboardState extends State<Dashboard> {
                                           //minimumSize: const Size(200.0, 40.0),
                                           ),
                                       onPressed: navigateToStudentsListPage, 
-                                      child: Text("View Students")
+                                      child: const Text("View Students")
                                     ),
                                     ElevatedButton(
                                       style: ElevatedButton.styleFrom(
@@ -134,24 +141,24 @@ class _DashboardState extends State<Dashboard> {
                                           //minimumSize: const Size(200.0, 40.0),
                                           ),
                                       onPressed: navigateToAddStudentPage, 
-                                      child: const Text("Add Students"))
+                                      child: const Text("Add Student"))
                                   ],
                                 ),
                               ],
                             ),
-                        ),
-                        const SizedBox(height: 20,),
-                                                Container(
-                          padding: EdgeInsets.all(20),
-                          height: 150,
-                          width: MediaQuery.of(context).size.width,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(25),
-                            color: Colors.purple[50]
                           ),
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            crossAxisAlignment: CrossAxisAlignment.start,
+                          const SizedBox(height: 20,),
+                          Container(
+                            padding: const EdgeInsets.all(20),
+                            height: 150,
+                            width: MediaQuery.of(context).size.width,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(25),
+                              color: Colors.purple[50]
+                            ) ,
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 const Text("Teachers",
                                 style: TextStyle(
@@ -193,51 +200,17 @@ class _DashboardState extends State<Dashboard> {
                                 ),
                               ],
                             ),
-                        ),
-                    ],
+                          ),
+                        ],
+                    ),
                   ),
                 ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
-      ),
-    );
+      );
+    }
   }
-}
 
-      // appBar: AppBar(
-      //   title: Text('Home Page'),
-      // ),
-      // body: Center(
-      //   child: Column(
-      //     mainAxisAlignment: MainAxisAlignment.center,
-      //     children: [
-      //       ElevatedButton(
-      //         onPressed: () {
-      //           // Navigate to the page where admin can manage teachers
-      //           Navigator.pushNamed(context, '/manage_teachers_page');
-      //         },
-      //         child: Text('Manage Teachers'),
-      //       ),
-      //       SizedBox(height: 20.0),
-      //       ElevatedButton(
-      //         onPressed: () {
-      //           // Navigate to the page where admin can manage students
-      //           Navigator.pushNamed(context, '/manage_students_page');
-      //         },
-      //         child: Text('Manage Students'),
-      //       ),
-      //     ],
-      //   ),
-      // ),
-
-
-                // Positioned(
-                //   bottom: 16,
-                //   right: 16,
-                //   child:FloatingActionButton(
-                //     onPressed: navigateToAddClassPage,
-                //     backgroundColor: Colors.deepPurple[800],
-                //   child: Icon(Icons.add)))
                 

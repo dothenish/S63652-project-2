@@ -6,15 +6,17 @@
 */
 
 class Student {
+  String id;
   String icNo;
   String name;
   String className;
-  String gender;
+  //String gender;
 
   Student({
+    required this.id,
     required this.icNo, 
     required this.name, 
     required this.className,
-    required this.gender
+    // this.gender
   });
 }

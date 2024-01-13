@@ -9,12 +9,12 @@ class Result {
   String id;
   String studentId;
   String subject;
-  int marks;
+  int grade;
 
   Result({
     required this.id,
     required this.studentId,
     required this.subject,
-    required this.marks,
+    required this.grade,
   });
 }
