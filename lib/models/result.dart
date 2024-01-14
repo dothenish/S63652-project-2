@@ -4,17 +4,16 @@
 * Notes:
 *======================================================
 */
+import 'dart:convert';
 
 class Result {
-  String id;
-  String studentId;
-  String subject;
-  int grade;
+  final String id;
+  final String subjectName;
+  final String grade;
 
   Result({
     required this.id,
-    required this.studentId,
-    required this.subject,
+    required this.subjectName,
     required this.grade,
   });
 }

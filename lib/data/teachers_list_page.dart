@@ -1,3 +1,9 @@
+/*=====================================================
+* Program: teacher_list_page.dart
+* Purpose: display list of teachers added
+* Notes: 
+*======================================================
+*/
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
@@ -18,7 +24,7 @@ class _TeachersListState extends State<TeachersList> {
   String? _error;
 
   @override
-  void initState() {
+  void initState() { //initialized state when widget is created
     super.initState();
     _loadTeachers();
   }
@@ -29,7 +35,7 @@ class _TeachersListState extends State<TeachersList> {
       'teachers-list.json');
       
       try {
-      final response = await http.get(url);
+      final response = await http.get(url); //HTTP GET method to fetch list from firebase
 
       if(response.statusCode >= 400) {
         setState(() {
@@ -76,7 +82,7 @@ class _TeachersListState extends State<TeachersList> {
     }
   }
 
-    void _addTeacher() async {
+    void _addTeacher() async { //navigation to add teacher page
     final newTeacher = await Navigator.of(context).push<Teacher>(
       MaterialPageRoute(
         builder: (ctx) => const AddTeacherPage()
@@ -91,7 +97,7 @@ class _TeachersListState extends State<TeachersList> {
     });
   }
 
-    //func to delete item
+    //func to delete teacher from list and database
     void _removeTeacher (Teacher teacher) async {
       final index = _teacherList.indexOf(teacher);
       setState(() {
@@ -101,7 +107,7 @@ class _TeachersListState extends State<TeachersList> {
       final url = Uri.https(
           'flutter-school-managemen-d72cf-default-rtdb.asia-southeast1.firebasedatabase.app',
           'teachers-list/${teacher.id}.json');
-      final response = await http.delete(url);
+      final response = await http.delete(url); //HTTP DELETE method
 
       if (response.statusCode >= 400) {
         setState(() {
@@ -140,6 +146,8 @@ class _TeachersListState extends State<TeachersList> {
           final teacher = _teacherList[index];
           return Padding(
             padding: const EdgeInsets.all(8.0),
+
+            //each teacher is represented by a card
             child: Card(
               child: ListTile(
                 title: Text(teacher.name,
@@ -153,7 +161,7 @@ class _TeachersListState extends State<TeachersList> {
                   ),
                 ),
                 onTap: () {
-                // Navigate to student profile page
+                // Navigate to teacher profile page
                 Navigator.of(context).push(
                   MaterialPageRoute(
                     builder: (ctx) => TeacherProfilePage(

@@ -1,7 +1,11 @@
+/*=====================================================
+* Program: dashboard_page.dart
+* Purpose: Main Interface for administrators
+* Notes: 
+*======================================================
+*/
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-//import 'package:school_management_app/views/screens/add_student_page.dart';
-//import 'add_class_page.dart';
 
 
 class Dashboard extends StatefulWidget {
@@ -48,6 +52,8 @@ class _DashboardState extends State<Dashboard> {
             const SizedBox(height: 40.0),
             Padding(
               padding: const EdgeInsets.all(20),
+
+              //The top section
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -60,9 +66,12 @@ class _DashboardState extends State<Dashboard> {
                         fontSize: 30,
                         fontStyle: FontStyle.italic
                       )),
+
+                      //logout button
                       IconButton(
-                        onPressed: () => FirebaseAuth.instance.signOut(), 
-                        icon: const Icon(Icons.logout),
+                        onPressed: () => FirebaseAuth.instance.signOut(), //triggers sign out funct from FirebaseAuth
+                        icon: const Icon(Icons.logout,
+                        size: 35,),
                         color: Colors.white,)
                     ],
                   ),

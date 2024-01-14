@@ -1,8 +1,14 @@
-import 'dart:io';
+/*=====================================================
+* Program: add_teacher_page.dart
+* Purpose: Add new teacher
+* Notes: 
+*======================================================
+*/
+//import 'dart:io';
 import 'dart:convert';
-import 'package:intl/intl.dart';
+//import 'package:intl/intl.dart';
 import 'package:flutter/material.dart';
-import 'package:image_picker/image_picker.dart';
+//import 'package:image_picker/image_picker.dart';
 import 'package:http/http.dart' as http;
 import 'package:school_management_app/models/teacher.dart';
 
@@ -23,8 +29,8 @@ class _AddTeacherPageState extends State<AddTeacherPage> {
   //late DateTime _selectedDate = DateTime.now();
   var _isSending = false;
   
-  void navigateToDashboard() {
-    Navigator.pushReplacementNamed(context, '/dashboard');
+  void navigateToTeacherListPage() {
+    Navigator.pushReplacementNamed(context, '/teachers_list_page');
   }
 
 
@@ -48,7 +54,7 @@ class _AddTeacherPageState extends State<AddTeacherPage> {
           'flutter-school-managemen-d72cf-default-rtdb.asia-southeast1.firebasedatabase.app',
           'teachers-list.json'
         );
-        final response = await http.post(
+        final response = await http.post( //HTTP POST method to add the added details to firebase
           url,
           headers: {
             'Content-Type': 'application/json',
@@ -81,23 +87,6 @@ class _AddTeacherPageState extends State<AddTeacherPage> {
       }
     }
 
-  //   void _presentDatePicker() {
-  //   showDatePicker(
-  //     context: context,
-  //     initialDate: DateTime.now(),
-  //     firstDate: DateTime(2021),
-  //     lastDate: DateTime.now(),
-  //   ).then((pickedDate) {
-  //     //To check if the user cancel the date picker
-  //     if (pickedDate == null) {
-  //       return;
-  //     }
-  //     setState(() {
-  //       _selectedDate = pickedDate;
-  //     });
-  //   });
-  // }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -113,7 +102,8 @@ class _AddTeacherPageState extends State<AddTeacherPage> {
                   borderRadius: BorderRadius.circular(20),
                   color: Colors.white
                 ),
-              child: Form(
+
+              child: Form( //form widget for validation
                 key: _formKey,
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -124,7 +114,7 @@ class _AddTeacherPageState extends State<AddTeacherPage> {
                         Align(
                           alignment: Alignment.centerLeft,
                           child: IconButton(
-                            onPressed: navigateToDashboard, 
+                            onPressed: navigateToTeacherListPage, 
                             icon: const Icon(Icons.close,
                           size: 34),) 
                           
@@ -176,40 +166,7 @@ class _AddTeacherPageState extends State<AddTeacherPage> {
                         subjectsController.text = subjectsController.text.toString();
                       },
                     ),
-                    
-                    // TextFormField(
-                    //   controller: hiredDateController,
-                    //   decoration: InputDecoration(labelText: "Date Hired"),
-                    //   validator: (datehired) => datehired == null || datehired.isEmpty
-                    //   ? 'Please choose hired date'
-                    //   : null,
-                    // ),
-                    // Container(
-                    //   height: 70,
-                    //   child: Row(
-                    //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    //     children: [
-                    //       Expanded(
-                    //         child: Text(
-                    //           _selectedDate == null
-                    //               ? 'No Date Chosen!'
-                    //               : 'Hiring Date: ${DateFormat.yMd().format(_selectedDate)}',
-                    //         ),
-                    //       ),
-                    //       TextButton(
-                    //         onPressed: () {
-                    //           _presentDatePicker();
-                    //         },
-                    //         child: const Text(
-                    //           'Choose Date',
-                    //           style: TextStyle(
-                    //             fontWeight: FontWeight.bold,
-                    //           ),
-                    //         ),
-                    //       ),
-                    //     ],
-                    //   ),
-                    // ),
+
                     const SizedBox(height: 16.0),
                     ElevatedButton(
                       style: ElevatedButton.styleFrom(
@@ -222,8 +179,8 @@ class _AddTeacherPageState extends State<AddTeacherPage> {
                           vertical: 16.0),
                           minimumSize: const Size(200.0, 40.0),
                           ),
-                      onPressed: _isSending
-                      ? null : _saveTeacher,
+                      onPressed: _isSending //in progress
+                      ? null : _saveTeacher, //triggered when pressed
                       child: _isSending
                       ? const SizedBox(
                         height: 16,
@@ -241,52 +198,4 @@ class _AddTeacherPageState extends State<AddTeacherPage> {
       ),
     );
   }
-
-   // Container to display selected image from the gallery
-  //  Widget _buildImageContainer() {
-  //   return Stack(
-  //     alignment: Alignment.bottomRight,
-  //     children: [
-  //       Container(
-  //         margin: const EdgeInsets.symmetric(vertical: 16.0),
-  //         height: 140,
-  //         width: 140,
-  //         decoration: BoxDecoration(
-  //           shape: BoxShape.circle,
-  //           border: Border.all(
-  //             width: 4,
-  //             color: Colors.grey,
-  //           ),
-  //           boxShadow: [
-  //             BoxShadow(
-  //               color: Colors.black.withOpacity(0.1),
-  //             ),
-  //           ],
-  //         ),
-  //         child: ClipOval(
-  //           child: _profileImageUrl.isNotEmpty
-  //               ? Image.file(
-  //                   File(_profileImageUrl),
-  //                   fit: BoxFit.cover,
-  //                 )
-  //               : const Column(
-  //                   // Placeholder when no image is chosen
-  //                   mainAxisAlignment: MainAxisAlignment.center,
-  //                   children: [
-  //                     Icon(
-  //                       Icons.person,
-  //                       size: 80,
-  //                       color: Colors.grey,
-  //                     ),
-  //                   ],
-  //                 ),
-  //         ),
-  //       ),
-  //       IconButton(
-  //         onPressed: _pickImage,
-  //         icon: const Icon(Icons.add_a_photo),
-  //       ),
-  //     ],
-  //   );
-  // }
 }

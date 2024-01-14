@@ -10,6 +10,8 @@ import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:school_management_app/data/teachers_list_page.dart';
 import 'package:school_management_app/data/students_list_page.dart';
+import 'package:school_management_app/providers/student_provider.dart';
+import 'package:school_management_app/views/screens/edit_teacher_page.dart';
 import 'views/screens/add_teacher_page.dart';
 import 'views/screens/dashboard_page.dart';
 import 'views/screens/on_boarding_page.dart';
@@ -19,6 +21,7 @@ import 'views/screens/add_studresult_page.dart';
 import 'views/screens/add_disciplinecase_page.dart';
 import 'views/screens/student_result_list_page.dart';
 import 'views/screens/student_disciplinecase_list.dart';
+import 'package:provider/provider.dart';
 
 
 //connect project with firebase
@@ -32,8 +35,18 @@ void main() async {
       projectId: 'flutter-school-managemen-d72cf'
       )) 
       : await Firebase.initializeApp();
-  runApp(const MyApp());
+   runApp(
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider<StudentProvider>(
+          create: (context) => StudentProvider(),
+        ),
+      ],
+      child: const MyApp(),
+    ),
+  );
 }
+
 
 final navigatorKey = GlobalKey<NavigatorState>();
 
@@ -60,7 +73,7 @@ class MyApp extends StatelessWidget {
         '/add_student_case_page':(context) => AddDisciplineCasePage(),
         '/students_result_list_page':(context) => StudentResultPage(),
         '/students_disciplinecase_list_page':(context) => StudentDisciplineCasePage(),
-        
+        '/edit_teacher_profile_page': (context) => const EditTeacherPage(),
       },
       home: const LoginPage(),
     );

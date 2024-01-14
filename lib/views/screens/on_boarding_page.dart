@@ -57,7 +57,7 @@ Widget build(BuildContext context) {
                   const SizedBox(height: 50),
                   Column(
                     children: [
-                      Text("Digitalize Students \nAttendance",
+                      Text("Digitalize Students \n& Teacher\'s details",
                       textAlign: TextAlign.center,
                       style: GoogleFonts.nunito(
                         fontWeight: FontWeight.bold,
@@ -66,7 +66,7 @@ Widget build(BuildContext context) {
                         )),
                         const SizedBox(height: 30),
                         Text(
-                          "Effortlessly digitize student attendance with \nour app, ensuring accurate and efficient record-keeping for a more streamlined school \nexperience.",
+                          "Effortlessly digitize student & teacher details with \nour app, ensuring accurate and efficient record-keeping for a more streamlined school \nexperience.",
                           textAlign: TextAlign.center,
                           style: GoogleFonts.nunito(
                           fontSize: 16.0,

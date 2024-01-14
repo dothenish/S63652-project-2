@@ -1,116 +1,9 @@
-// import 'package:flutter/material.dart';
-// import 'package:firebase_auth/firebase_auth.dart';
-
-// class LoginPage extends StatefulWidget {
-//   const LoginPage({super.key});
-
-//   @override
-//   State<LoginPage> createState() => _LoginPageState();
-// }
-
-// class _LoginPageState extends State<LoginPage> {
-//    final emailController = TextEditingController();
-//    final passwordController = TextEditingController();
-
-//    @override
-//    void dispose() {
-//     emailController.dispose();
-//     passwordController.dispose();
-
-//     super.dispose();
-//    }
-
-//   void navigateToDashboard() {
-//     Navigator.pushReplacementNamed(context, '/dashboard');
-//     }
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return Scaffold(
-//       backgroundColor: Colors.purple[50],
-//       body: Padding(
-//         padding: const EdgeInsets.all(16.0),
-//         child: Column(
-//           mainAxisAlignment: MainAxisAlignment.center,
-//           crossAxisAlignment: CrossAxisAlignment.center,
-//           children: [
-//             const Text("Administrator \nLogin",
-//             textAlign: TextAlign.center,
-//             style: TextStyle(
-//               fontWeight: FontWeight.bold,
-//               fontSize: 30
-//             ),),
-//             const SizedBox(height: 25,),
-//             Container(
-//               margin: const EdgeInsets.symmetric(vertical: 10),
-//               padding: const EdgeInsets.symmetric(
-//                 horizontal: 20,
-//                 vertical: 5
-//               ),
-//               width: MediaQuery.of(context).size.width,
-//               decoration: BoxDecoration(
-//                 color: Colors.purple[100],
-//                 borderRadius: BorderRadius.circular(29),
-//               ),
-//               child: TextField(
-//                 controller: emailController,
-//                 decoration: InputDecoration(
-//                   icon: Icon(Icons.person,
-//                   color: Colors.deepPurple[800]),
-//                   hintText: 'Email',
-//                   border: InputBorder.none),
-//               ),
-//             ),
-//             const SizedBox(height: 16.0),
-//             Container(
-//               margin: const EdgeInsets.symmetric(vertical: 10),
-//               padding: const EdgeInsets.symmetric(
-//                 horizontal: 20,
-//                 vertical: 5
-//               ),
-//               width: MediaQuery.of(context).size.width,
-//               decoration: BoxDecoration(
-//                 color: Colors.purple[100],
-//                 borderRadius: BorderRadius.circular(29),
-//               ),
-//               child: TextField(
-//                 controller: passwordController,
-//                 decoration: InputDecoration(
-//                   icon: Icon(Icons.lock,
-//                   color: Colors.deepPurple[800]),
-//                   hintText: 'Password',
-//                   border: InputBorder.none),
-//               ),
-//             ),
-
-//             //Login Button
-//             const SizedBox(height: 16.0),
-//             ElevatedButton(
-//               style: ElevatedButton.styleFrom(
-//                 backgroundColor: Colors.deepPurple[800],
-//                 shape: RoundedRectangleBorder(
-//                   borderRadius: BorderRadius.circular(30.0), 
-//                   ),
-//                   padding: const EdgeInsets.symmetric(
-//                     horizontal: 20.0, 
-//                     vertical: 16.0),
-//                     minimumSize: const Size(200.0, 40.0),
-//                     ),
-//               onPressed: signIn, 
-//               child: const Text('Sing In'))
-//           ],
-//         ),
-//       ),
-//     );
-//   }
-
-//   Future signIn() async {
-//     await FirebaseAuth.instance.signInWithEmailAndPassword(
-//       email: emailController.text.trim(),
-//       password: passwordController.text.trim(),
-//     );
-//   }
-// }
+/*=====================================================
+* Program: log_in_page.dart
+* Purpose: Create the login page
+* Notes: Utilize firebaseAuth to handle authentication
+*======================================================
+*/
 
 import 'package:flutter/material.dart';
 import 'package:school_management_app/views/screens/dashboard_page.dart';
@@ -122,17 +15,18 @@ class LoginPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Scaffold(
-    body: StreamBuilder<User?>(
+    body: StreamBuilder<User?>( //listen for changes during authentication state.
       stream: FirebaseAuth.instance.authStateChanges(),
       builder: (context, snapshot) {
-        if (snapshot.connectionState == ConnectionState.waiting) {
+        if (snapshot.connectionState == ConnectionState.waiting) { //if loading
           return const Center(
-            child: CircularProgressIndicator());
-        } else if (snapshot.hasError) {
+            child: CircularProgressIndicator()
+          );
+        } else if (snapshot.hasError) { //if error occured
           return const Center(
             child: Text("Error Occured!"));
         } 
-        else if (snapshot.hasData) {
+        else if (snapshot.hasData) { //if authentication successful, return to dashboard page
           return const Dashboard();
         } else {
           return const LoginWidget();

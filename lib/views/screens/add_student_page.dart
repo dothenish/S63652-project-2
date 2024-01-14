@@ -1,3 +1,9 @@
+/*=====================================================
+* Program: add_student_page.dart
+* Purpose: Adding new student to firebase
+* Notes: validates student icno, name, class name
+*======================================================
+*/
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
@@ -14,7 +20,7 @@ class AddStudentPage extends StatefulWidget {
 //final databaseReference = FirebaseDatabase.instance.ref("students");
 
 class _AddStudentPageState extends State<AddStudentPage> {
-  final _formKey = GlobalKey<FormState>();
+  final _formKey = GlobalKey<FormState>(); //for validation
   final icNoController = TextEditingController();
   final fullNameController = TextEditingController();
   //final gradeController = TextEditingController();
@@ -36,7 +42,7 @@ class _AddStudentPageState extends State<AddStudentPage> {
     //   });
     // }
 
-      void _saveStudent() async{
+      void _saveStudent() async{ //save input data
         if (_formKey.currentState!.validate()) {
           setState(() {
             _isSending = true;
@@ -46,7 +52,7 @@ class _AddStudentPageState extends State<AddStudentPage> {
             'flutter-school-managemen-d72cf-default-rtdb.asia-southeast1.firebasedatabase.app',
             'students-list.json'
           );
-          final response = await http.post(
+          final response = await http.post( //HTTP POST request to firebase to add a new student
             url,
             headers: {
               'Content-Type': 'application/json',
@@ -106,7 +112,7 @@ class _AddStudentPageState extends State<AddStudentPage> {
                           alignment: Alignment.centerLeft,
                           child: IconButton(
                             onPressed: navigateToDashboard, 
-                            icon: const Icon(Icons.close,
+                            icon: const Icon(Icons.close, //when user click on the 'X' button
                           size: 34),) 
                           
                         ),

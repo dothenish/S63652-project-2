@@ -1,3 +1,9 @@
+/*=====================================================
+* Program: log_in_widget.dart
+* Purpose: UI components for the log in page
+* Notes: handles user input & perform authentication process
+*======================================================
+*/
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:school_management_app/main.dart';
@@ -10,10 +16,12 @@ class LoginWidget extends StatefulWidget {
 }
 
 class _LoginWidgetState extends State<LoginWidget> {
+  //controllers to handle user input, email & password
    final emailController = TextEditingController();
    final passwordController = TextEditingController();
 
    @override
+   //dispose controller when widget in not longer need
    void dispose() {
     emailController.dispose();
     passwordController.dispose();
@@ -21,9 +29,29 @@ class _LoginWidgetState extends State<LoginWidget> {
     super.dispose();
    }
 
+  // navigate to dashboard
   void navigateToDashboard() {
     Navigator.pushReplacementNamed(context, '/dashboard');
     }
+
+  //Sign in function
+  Future signIn() async {
+    showDialog(
+      context: context, 
+      barrierDismissible: false,
+      builder: (context) => const Center(
+        child: CircularProgressIndicator())
+        );
+    try {
+    await FirebaseAuth.instance.signInWithEmailAndPassword(
+      email: emailController.text.trim(),
+      password: passwordController.text.trim(),
+    );
+  } on FirebaseAuthException catch (e) {
+    print(e);
+  }
+  navigatorKey.currentState!.popUntil((route) => route.isFirst); //navigate to dashboard when login is successful
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -98,28 +126,12 @@ class _LoginWidgetState extends State<LoginWidget> {
                     minimumSize: const Size(200.0, 40.0),
                     ),
               onPressed: signIn, 
-              child: const Text('Sing In'))
+              child: const Text('Sign In'))
           ],
         ),
       ),
     );
   }
 
-  Future signIn() async {
-    showDialog(
-      context: context, 
-      barrierDismissible: false,
-      builder: (context) => const Center(
-        child: CircularProgressIndicator())
-        );
-    try {
-    await FirebaseAuth.instance.signInWithEmailAndPassword(
-      email: emailController.text.trim(),
-      password: passwordController.text.trim(),
-    );
-  } on FirebaseAuthException catch (e) {
-    print(e);
-  }
-  navigatorKey.currentState!.popUntil((route) => route.isFirst);
-  }
+
 }

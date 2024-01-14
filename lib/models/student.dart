@@ -10,7 +10,6 @@ class Student {
   String icNo;
   String name;
   String className;
-  //String gender;
 
   Student({
     required this.id,

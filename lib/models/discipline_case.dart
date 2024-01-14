@@ -6,15 +6,13 @@
 */
 
 class DisciplineCase {
-  String id;
-  String studentId;
-  DateTime date;
-  String description;
+  final String id;
+  final String caseTitle;
+  final String caseDescription;
 
   DisciplineCase({
     required this.id,
-    required this.studentId,
-    required this.date,
-    required this.description,
+    required this.caseTitle,
+    required this.caseDescription,
   });
 }

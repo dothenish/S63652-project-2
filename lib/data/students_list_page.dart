@@ -1,3 +1,9 @@
+/*=====================================================
+* Program: student_list_page.dart
+* Purpose: display list of students, provide functionalities to view student details, add new students
+* Notes: integrated with firebase to fetch & manipulate student data
+*======================================================
+*/
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import '../views/screens/student_profile_page.dart';
@@ -23,13 +29,13 @@ class _StudentsListState extends State<StudentsList> {
     _loadStudents();
   }
 
-  void _loadStudents() async {
+  void _loadStudents() async { //load students from firebase
     final url = Uri.https(
       'flutter-school-managemen-d72cf-default-rtdb.asia-southeast1.firebasedatabase.app',
       'students-list.json');
 
     try {
-      final response = await http.get(url);
+      final response = await http.get(url); //HTTP GET request, to retrive data
 
       if(response.statusCode >= 400) {
         setState(() {
@@ -77,8 +83,8 @@ class _StudentsListState extends State<StudentsList> {
   }
 
   //function to add more students
-  void _addStudent() async {
-    final newStudent = await Navigator.of(context).push<Student>(
+  void _addStudent() async { //navigate to add student page
+    final newStudent = await Navigator.of(context).push<Student>( //await for response to get newly added data
       MaterialPageRoute(
         builder: (ctx) => const AddStudentPage()
       ),
@@ -89,11 +95,11 @@ class _StudentsListState extends State<StudentsList> {
     }
     
     setState(() {
-      _studentList.add(newStudent);
+      _studentList.add(newStudent); // update state when new student is added
     });
   }
 
-  //func to delete item
+  //function to remove student from the list and in firebase
   void _removeStudent (Student student) async {
     final index = _studentList.indexOf(student);
     setState(() {
@@ -113,7 +119,7 @@ class _StudentsListState extends State<StudentsList> {
   }
 
     void navigateToDashboardPage() {
-      Navigator.pushReplacementNamed(context, '/dashboard');
+      Navigator.pushReplacementNamed(context, '/dashboard'); //navigate to dashboard
       }
 
   @override
@@ -136,12 +142,14 @@ class _StudentsListState extends State<StudentsList> {
           ? const Center(child: CircularProgressIndicator())
           : _error != null
               ? Center(child: Text(_error!))
-              : ListView.builder(
+              : ListView.builder( //display student list
                   itemCount: _studentList.length,
                   itemBuilder: (ctx, index) {
                     final student = _studentList[index];
                     return Padding(
                       padding: const EdgeInsets.all(8.0),
+
+                      //a student is represented in a card
                       child: Card(
                         child: ListTile(
                           title: Text(student.name,
@@ -152,11 +160,11 @@ class _StudentsListState extends State<StudentsList> {
                           style: const TextStyle(
                             fontSize: 20
                           ),),
-                          onTap: () {
+                          onTap: () { //student card is tapped
                             // Navigate to student profile page
                             Navigator.of(context).push(
                               MaterialPageRoute(
-                                builder: (ctx) => StudentProfilePage(
+                                builder: (ctx) => StudentProfilePage( //students details
                                   student: student,
                                   onRemoveStudent: _removeStudent,
                                   ),
@@ -169,11 +177,12 @@ class _StudentsListState extends State<StudentsList> {
                     );
                   },
                 ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _addStudent,
-        backgroundColor: Colors.deepPurple[800],
-        child: const Icon(Icons.add),
-      ),
-    );
-  }
-}
+
+                floatingActionButton: FloatingActionButton( 
+                  onPressed: _addStudent, //to add new students
+                  backgroundColor: Colors.deepPurple[800],
+                  child: const Icon(Icons.add),
+                ),
+              );
+            }
+          }
